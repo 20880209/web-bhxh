@@ -45,7 +45,7 @@
                 </div>
                 
                 <!-- Container chứa các dòng giai đoạn -->
-                <div id="periods-container" class="space-y-3">
+                <div id="periods-container" class="space-y-4 md:space-y-3">
                     <!-- Các dòng sẽ được JavaScript render tại đây -->
                 </div>
             </div>
@@ -222,11 +222,11 @@
 
     <footer class="bg-gray-800 text-gray-400 py-8 px-4 text-center text-sm">
         <div class="flex items-center justify-center gap-3 mb-6">
-            <img src="image.png" alt="Avatar Nguyễn Chí Công" class="w-12 h-12 rounded-full object-cover border-2 border-gray-600 shadow-md" onerror="this.src='https://ui-avatars.com/api/?name=Nguyễn+Chí+Công&background=4b5563&color=fff'">
+            <img src="image_5f1de4.jpg" alt="Avatar Nguyễn Chí Công" class="w-12 h-12 rounded-full object-cover border-2 border-gray-600 shadow-md" onerror="this.src='https://ui-avatars.com/api/?name=Nguyễn+Chí+Công&background=4b5563&color=fff'">
             <span class="text-gray-200 font-medium text-base tracking-wide">Tác giả: Nguyễn Chí Công</span>
         </div>
         <p>© 2026 Hướng dẫn tính Bảo hiểm xã hội</p>
-        <p class="mt-2 text-xs">Mọi số liệu mang tính chất tham khảo dựa trên công thức công bố từ cơ quan Nhà Nước.</p>
+        <p class="mt-2 text-xs">Mọi số liệu chỉ mang tính chất tham khảo dựa trên công thức công bố từ cơ quan Nhà Nước.</p>
     </footer>
 
     <script>
@@ -274,37 +274,60 @@
         function addPeriodRow(isMaternity = false) {
             const container = document.getElementById('periods-container');
             const rowDiv = document.createElement('div');
-            rowDiv.className = "flex flex-col md:flex-row gap-2 md:gap-4 items-center bg-white md:bg-transparent p-4 md:p-0 rounded-lg border md:border-0 border-gray-200 shadow-sm md:shadow-none mb-3 md:mb-0 period-row";
             
-            const placeholder = isMaternity ? "VD lương thai sản: 5,000,000" : "VD: 5,000,000";
-            const rowLabel = isMaternity ? `<span class="text-xs font-bold text-pink-600 bg-pink-50 px-2 py-1 rounded w-full md:hidden mb-2">Giai đoạn thai sản</span>` : "";
+            // Xóa background/border trên Desktop (để làm dạng lưới), chỉ dùng trên Mobile
+            rowDiv.className = "period-row relative bg-white md:bg-transparent p-4 md:p-0 rounded-xl border border-gray-200 md:border-0 shadow-sm md:shadow-none mb-4 md:mb-0";
+            
+            const placeholder = isMaternity ? "Lương thai sản: VD 5,000,000" : "VD: 5,000,000";
             const bgClass = isMaternity ? "bg-pink-50" : "bg-white";
+            
+            // Nhãn hiển thị trên Mobile
+            const mobileLabel = isMaternity 
+                ? `<span class="text-[10px] font-bold text-pink-600 bg-pink-100 px-2 py-1 rounded uppercase tracking-wide">Thai sản</span>` 
+                : `<span class="text-[10px] font-bold text-gray-500 bg-gray-100 px-2 py-1 rounded uppercase tracking-wide">Giai đoạn</span>`;
 
             rowDiv.innerHTML = `
-                ${rowLabel}
-                <div class="grid grid-cols-2 md:flex md:w-5/12 gap-1 md:gap-2 w-full">
-                    <div class="flex border rounded overflow-hidden w-full">
-                        <select class="from-month px-1 py-2 md:px-2 outline-none bg-gray-50 border-r text-sm w-[55%] md:w-3/5">${generateMonthOptions()}</select>
-                        <select class="from-year px-1 py-2 md:px-2 outline-none bg-gray-50 text-sm w-[45%] md:w-2/5">${generateYearOptions()}</select>
-                    </div>
-                    <div class="flex items-center justify-center text-gray-400 text-sm md:px-0 whitespace-nowrap">Đến</div>
-                    <div class="flex border rounded overflow-hidden w-full">
-                        <select class="to-month px-1 py-2 md:px-2 outline-none bg-gray-50 border-r text-sm w-[55%] md:w-3/5">${generateMonthOptions()}</select>
-                        <select class="to-year px-1 py-2 md:px-2 outline-none bg-gray-50 text-sm w-[45%] md:w-2/5">${generateYearOptions()}</select>
-                    </div>
-                </div>
-
-                <div class="w-full md:w-6/12 mt-2 md:mt-0">
-                    <div class="relative">
-                        <input type="text" class="salary-input w-full p-2.5 border rounded outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 ${bgClass}" placeholder="${placeholder}">
-                        <span class="absolute right-3 top-2.5 text-gray-400 text-sm">VNĐ</span>
-                    </div>
-                </div>
-
-                <div class="w-full md:w-1/12 flex justify-end md:justify-center mt-2 md:mt-0 border-t md:border-t-0 pt-2 md:pt-0">
-                    <button onclick="this.closest('.period-row').remove()" class="text-gray-400 hover:text-red-500 p-2 transition" title="Xóa dòng này">
-                        <i class="fas fa-trash-alt text-lg"></i>
+                <!-- Mobile Header (Chỉ hiện trên điện thoại) -->
+                <div class="flex justify-between items-center w-full md:hidden mb-3 border-b border-gray-100 pb-2">
+                    ${mobileLabel}
+                    <button onclick="this.closest('.period-row').remove()" class="text-gray-400 hover:text-red-500 p-1" title="Xóa dòng này">
+                        <i class="fas fa-times text-lg"></i>
                     </button>
+                </div>
+
+                <!-- Wrapper Nội dung chính -->
+                <div class="flex flex-col md:flex-row w-full gap-3 md:gap-4 md:items-center">
+                    
+                    <!-- Nhóm Ngày tháng (Gom gọn trên 1 dòng Mobile) -->
+                    <div class="flex items-center gap-1.5 md:gap-2 w-full md:w-5/12">
+                        <div class="flex border rounded-lg overflow-hidden w-full flex-1 bg-gray-50">
+                            <select class="from-month px-1 py-2.5 md:px-2 outline-none bg-transparent border-r text-sm w-[55%] md:w-3/5">${generateMonthOptions()}</select>
+                            <select class="from-year px-1 py-2.5 md:px-2 outline-none bg-transparent text-sm w-[45%] md:w-2/5">${generateYearOptions()}</select>
+                        </div>
+                        
+                        <div class="text-gray-400 text-sm font-medium whitespace-nowrap hidden md:block px-1">Đến</div>
+                        <div class="text-gray-400 text-sm font-medium whitespace-nowrap md:hidden px-1"><i class="fas fa-arrow-right text-[10px]"></i></div>
+                        
+                        <div class="flex border rounded-lg overflow-hidden w-full flex-1 bg-gray-50">
+                            <select class="to-month px-1 py-2.5 md:px-2 outline-none bg-transparent border-r text-sm w-[55%] md:w-3/5">${generateMonthOptions()}</select>
+                            <select class="to-year px-1 py-2.5 md:px-2 outline-none bg-transparent text-sm w-[45%] md:w-2/5">${generateYearOptions()}</select>
+                        </div>
+                    </div>
+
+                    <!-- Nhóm Nhập lương -->
+                    <div class="w-full md:w-6/12 mt-1 md:mt-0">
+                        <div class="relative">
+                            <input type="text" class="salary-input w-full p-2.5 border rounded-lg outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 ${bgClass}" placeholder="${placeholder}">
+                            <span class="absolute right-3 top-2.5 text-gray-400 text-sm font-medium">VNĐ</span>
+                        </div>
+                    </div>
+
+                    <!-- Nút Xóa (Chỉ hiện trên Máy tính) -->
+                    <div class="hidden md:flex w-full md:w-1/12 justify-center">
+                        <button onclick="this.closest('.period-row').remove()" class="text-gray-400 hover:text-red-500 transition p-2" title="Xóa dòng này">
+                            <i class="fas fa-trash-alt text-lg"></i>
+                        </button>
+                    </div>
                 </div>
             `;
             
