@@ -222,11 +222,11 @@
 
     <footer class="bg-gray-800 text-gray-400 py-8 px-4 text-center text-sm">
         <div class="flex items-center justify-center gap-3 mb-6">
-            <img src="image_5f1de4.jpg" alt="Avatar Nguyễn Chí Công" class="w-12 h-12 rounded-full object-cover border-2 border-gray-600 shadow-md" onerror="this.src='https://ui-avatars.com/api/?name=Nguyễn+Chí+Công&background=4b5563&color=fff'">
+            <img src="image.png" alt="Avatar Nguyễn Chí Công" class="w-12 h-12 rounded-full object-cover border-2 border-gray-600 shadow-md" onerror="this.src='https://ui-avatars.com/api/?name=Nguyễn+Chí+Công&background=4b5563&color=fff'">
             <span class="text-gray-200 font-medium text-base tracking-wide">Tác giả: Nguyễn Chí Công</span>
         </div>
         <p>© 2026 Hướng dẫn tính Bảo hiểm xã hội</p>
-        <p class="mt-2 text-xs">Mọi số liệu chỉ mang tính chất tham khảo dựa trên công thức công bố từ cơ quan Nhà Nước.</p>
+        <p class="mt-2 text-xs">Mọi số liệu dựa trên công thức công bố từ cơ quan Nhà Nước.</p>
     </footer>
 
     <script>
@@ -275,58 +275,52 @@
             const container = document.getElementById('periods-container');
             const rowDiv = document.createElement('div');
             
-            // Xóa background/border trên Desktop (để làm dạng lưới), chỉ dùng trên Mobile
-            rowDiv.className = "period-row relative bg-white md:bg-transparent p-4 md:p-0 rounded-xl border border-gray-200 md:border-0 shadow-sm md:shadow-none mb-4 md:mb-0";
+            // Layout mới: Viền xám bọc ngoài trên Mobile, trong suốt trên Web
+            rowDiv.className = "period-row relative bg-white md:bg-transparent p-3.5 md:p-0 rounded-xl border border-gray-200 md:border-0 shadow-sm md:shadow-none mb-4 md:mb-0 mt-3 md:mt-0";
             
             const placeholder = isMaternity ? "Lương thai sản: VD 5,000,000" : "VD: 5,000,000";
             const bgClass = isMaternity ? "bg-pink-50" : "bg-white";
             
-            // Nhãn hiển thị trên Mobile
+            // Nhãn hiển thị dạng nổi lên đường viền (rất tiết kiệm diện tích)
             const mobileLabel = isMaternity 
-                ? `<span class="text-[10px] font-bold text-pink-600 bg-pink-100 px-2 py-1 rounded uppercase tracking-wide">Thai sản</span>` 
-                : `<span class="text-[10px] font-bold text-gray-500 bg-gray-100 px-2 py-1 rounded uppercase tracking-wide">Giai đoạn</span>`;
+                ? `<div class="absolute -top-2.5 left-3 bg-pink-100 text-pink-600 text-[10px] font-bold px-2 py-0.5 rounded border border-pink-200 uppercase tracking-wide md:hidden z-10 shadow-sm">Thai sản</div>` 
+                : ``;
 
             rowDiv.innerHTML = `
-                <!-- Mobile Header (Chỉ hiện trên điện thoại) -->
-                <div class="flex justify-between items-center w-full md:hidden mb-3 border-b border-gray-100 pb-2">
-                    ${mobileLabel}
-                    <button onclick="this.closest('.period-row').remove()" class="text-gray-400 hover:text-red-500 p-1" title="Xóa dòng này">
-                        <i class="fas fa-times text-lg"></i>
-                    </button>
-                </div>
-
+                ${mobileLabel}
                 <!-- Wrapper Nội dung chính -->
-                <div class="flex flex-col md:flex-row w-full gap-3 md:gap-4 md:items-center">
+                <div class="flex flex-col md:flex-row w-full gap-2.5 md:gap-4 md:items-center">
                     
                     <!-- Nhóm Ngày tháng (Gom gọn trên 1 dòng Mobile) -->
-                    <div class="flex items-center gap-1.5 md:gap-2 w-full md:w-5/12">
-                        <div class="flex border rounded-lg overflow-hidden w-full flex-1 bg-gray-50">
-                            <select class="from-month px-1 py-2.5 md:px-2 outline-none bg-transparent border-r text-sm w-[55%] md:w-3/5">${generateMonthOptions()}</select>
-                            <select class="from-year px-1 py-2.5 md:px-2 outline-none bg-transparent text-sm w-[45%] md:w-2/5">${generateYearOptions()}</select>
+                    <div class="flex items-center gap-1 md:gap-2 w-full md:w-5/12">
+                        <div class="flex border border-gray-200 rounded-lg overflow-hidden w-full flex-1 bg-gray-50 focus-within:border-green-400 transition-colors">
+                            <select class="from-month px-1 py-2 md:px-2 outline-none bg-transparent border-r border-gray-200 text-sm w-[55%] md:w-3/5">${generateMonthOptions()}</select>
+                            <select class="from-year px-1 py-2 md:px-2 outline-none bg-transparent text-sm w-[45%] md:w-2/5">${generateYearOptions()}</select>
                         </div>
                         
                         <div class="text-gray-400 text-sm font-medium whitespace-nowrap hidden md:block px-1">Đến</div>
                         <div class="text-gray-400 text-sm font-medium whitespace-nowrap md:hidden px-1"><i class="fas fa-arrow-right text-[10px]"></i></div>
                         
-                        <div class="flex border rounded-lg overflow-hidden w-full flex-1 bg-gray-50">
-                            <select class="to-month px-1 py-2.5 md:px-2 outline-none bg-transparent border-r text-sm w-[55%] md:w-3/5">${generateMonthOptions()}</select>
-                            <select class="to-year px-1 py-2.5 md:px-2 outline-none bg-transparent text-sm w-[45%] md:w-2/5">${generateYearOptions()}</select>
+                        <div class="flex border border-gray-200 rounded-lg overflow-hidden w-full flex-1 bg-gray-50 focus-within:border-green-400 transition-colors">
+                            <select class="to-month px-1 py-2 md:px-2 outline-none bg-transparent border-r border-gray-200 text-sm w-[55%] md:w-3/5">${generateMonthOptions()}</select>
+                            <select class="to-year px-1 py-2 md:px-2 outline-none bg-transparent text-sm w-[45%] md:w-2/5">${generateYearOptions()}</select>
                         </div>
                     </div>
 
-                    <!-- Nhóm Nhập lương -->
-                    <div class="w-full md:w-6/12 mt-1 md:mt-0">
-                        <div class="relative">
-                            <input type="text" class="salary-input w-full p-2.5 border rounded-lg outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 ${bgClass}" placeholder="${placeholder}">
-                            <span class="absolute right-3 top-2.5 text-gray-400 text-sm font-medium">VNĐ</span>
+                    <!-- Nhóm Nhập lương & Nút Xóa (Nằm chung 1 dòng) -->
+                    <div class="flex items-center gap-2 w-full md:w-7/12">
+                        <!-- Nhập lương -->
+                        <div class="relative flex-grow">
+                            <input type="text" class="salary-input w-full p-2 border border-gray-200 rounded-lg outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 text-sm transition-shadow ${bgClass}" placeholder="${placeholder}">
+                            <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-[11px] md:text-sm font-medium">VNĐ</span>
                         </div>
-                    </div>
 
-                    <!-- Nút Xóa (Chỉ hiện trên Máy tính) -->
-                    <div class="hidden md:flex w-full md:w-1/12 justify-center">
-                        <button onclick="this.closest('.period-row').remove()" class="text-gray-400 hover:text-red-500 transition p-2" title="Xóa dòng này">
-                            <i class="fas fa-trash-alt text-lg"></i>
-                        </button>
+                        <!-- Nút Xóa (Hiển thị inline nhỏ gọn) -->
+                        <div class="flex-shrink-0 flex justify-center md:w-[12%]">
+                            <button onclick="this.closest('.period-row').remove()" class="w-9 h-9 flex items-center justify-center text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors border border-transparent hover:border-red-100" title="Xóa dòng này">
+                                <i class="fas fa-trash-alt text-base"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             `;
