@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hướng Dẫn & Tính BHXH Một Lần 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); }
+        .card-shadow { box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 0 3px rgba(0, 0, 0, 0.02); }
+        
+        /* Ẩn mũi tên của input number */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header -->
+    <header class="gradient-bg text-white py-12 px-4 text-center">
+        <h1 class="text-3xl md:text-4xl font-bold mb-4">CÔNG CỤ TÍNH BHXH MỘT LẦN 2026</h1>
+        <p class="text-blue-100 max-w-2xl mx-auto">Nhập chi tiết từng giai đoạn đóng bảo hiểm xã hội để có kết quả chính xác nhất.</p>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 -mt-8 pb-16">
+        
+        <!-- Calculator Section -->
+        <section class="bg-white rounded-xl card-shadow p-6 md:p-8 mb-12">
+            <div class="flex items-center mb-6 border-b pb-4">
+                <i class="fas fa-calculator text-green-600 text-2xl mr-3"></i>
+                <h2 class="text-2xl font-bold text-gray-800">Thông tin quá trình đóng BHXH</h2>
+            </div>
+            
+            <div class="mb-4">
+                <div class="hidden md:grid grid-cols-12 gap-4 text-sm font-semibold text-gray-600 mb-2 px-2">
+                    <div class="col-span-5">Từ tháng/năm - Đến tháng/năm</div>
+                    <div class="col-span-6">Mức lương đóng BHXH (VNĐ)</div>
+                    <div class="col-span-1 text-center">Xóa</div>
+                </div>
+                
+                <!-- Container chứa các dòng giai đoạn -->
+                <div id="periods-container" class="space-y-3">
+                    <!-- Các dòng sẽ được JavaScript render tại đây -->
+                </div>
+            </div>
+
+            <!-- Nút hành động thêm dòng -->
+            <div class="flex flex-wrap gap-3 mt-4 mb-8">
+                <button onclick="addPeriodRow(false)" class="border border-green-500 text-green-600 font-medium px-5 py-2.5 rounded hover:bg-green-50 transition duration-200 text-sm">
+                    <i class="fas fa-plus mr-1"></i> Thêm giai đoạn
+                </button>
+                <button onclick="addPeriodRow(true)" class="border border-gray-400 text-gray-700 font-medium px-5 py-2.5 rounded hover:bg-gray-50 transition duration-200 text-sm">
+                    <i class="fas fa-baby mr-1"></i> Thêm giai đoạn thai sản
+                </button>
+            </div>
+
+            <!-- Nút Tính Toán -->
+            <div class="text-center border-t pt-8">
+                <button onclick="calculateBHXH()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-10 rounded-lg shadow-md transition transform hover:-translate-y-0.5 text-lg">
+                    Tính bảo hiểm xã hội
+                </button>
+            </div>
+
+            <!-- Vùng hiển thị Kết Quả -->
+            <div id="resultArea" class="mt-10 bg-green-50 rounded-xl p-6 lg:p-8 border border-green-200 hidden">
+                <div class="text-center mb-8">
+                    <p class="text-gray-600 uppercase tracking-widest text-sm font-bold mb-2">Số tiền dự kiến nhận được</p>
+                    <h3 id="totalAmount" class="text-4xl md:text-5xl font-extrabold text-green-700">0 VNĐ</h3>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm text-gray-700">
+                    <div class="bg-white p-5 rounded-lg border border-green-100 shadow-sm">
+                        <h4 class="font-bold text-gray-800 mb-3 text-base border-b pb-2"><i class="fas fa-info-circle text-blue-500 mr-2"></i>Chi tiết thông số</h4>
+                        <ul class="space-y-3">
+                            <li class="flex justify-between"><span>Tổng thời gian tham gia:</span> <strong id="resTotalTime" class="text-gray-900">0 tháng</strong></li>
+                            <li class="flex justify-between"><span>Làm tròn trước 2014 (T1):</span> <strong id="resT1" class="text-gray-900">0 năm</strong></li>
+                            <li class="flex justify-between"><span>Làm tròn từ 2014 (T2):</span> <strong id="resT2" class="text-gray-900">0 năm</strong></li>
+                            <li class="flex justify-between"><span>Mức bình quân (MBQTL):</span> <strong id="resAvgSalary" class="text-gray-900">0 đ</strong></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-white p-5 rounded-lg border border-green-100 shadow-sm">
+                        <h4 class="font-bold text-gray-800 mb-3 text-base border-b pb-2"><i class="fas fa-file-invoice-dollar text-green-500 mr-2"></i>Diễn giải công thức</h4>
+                        <div id="formulaDetail" class="space-y-2 font-mono text-xs text-gray-600 mt-2 leading-relaxed">
+                            <!-- Diễn giải sẽ hiển thị ở đây -->
+                        </div>
+                    </div>
+                </div>
+                <p class="italic text-xs mt-6 text-gray-500 text-center">* Lưu ý: Hệ số trượt giá áp dụng theo số liệu dự kiến. Kết quả thực tế do Cơ quan BHXH quyết định.</p>
+            </div>
+        </section>
+
+        <!-- Information Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <section class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                <h2 class="text-xl font-bold mb-4 flex items-center text-gray-800">
+                    <i class="fas fa-book-open text-blue-600 mr-3"></i>
+                    Công thức tính (Luật hiện hành)
+                </h2>
+                <div class="bg-gray-50 p-4 rounded-lg border-l-4 border-blue-500 mb-4">
+                    <p class="font-mono text-sm leading-relaxed text-gray-800">
+                        <strong>Mức hưởng BHXH 1 lần = </strong><br>
+                        (1.5 × T₁ + 2 × T₂) × MBQTL
+                    </p>
+                </div>
+                <ul class="list-disc ml-5 space-y-2 text-sm text-gray-600">
+                    <li><strong>T₁:</strong> Số năm đóng BHXH trước năm 2014.</li>
+                    <li><strong>T₂:</strong> Số năm đóng BHXH từ năm 2014 trở đi.</li>
+                    <li><strong>MBQTL:</strong> Mức bình quân tiền lương tháng đóng BHXH (đã nhân hệ số trượt giá).</li>
+                    <li class="text-red-600 font-medium">Trường hợp đóng dưới 1 năm: Lĩnh 22% tổng tiền lương đã đóng (tối đa không quá 2 tháng MBQTL).</li>
+                </ul>
+            </section>
+
+            <section class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+                <h2 class="text-xl font-bold mb-4 flex items-center text-gray-800">
+                    <i class="fas fa-sync text-blue-600 mr-3"></i>
+                    Quy tắc làm tròn tháng lẻ
+                </h2>
+                <p class="mb-4 text-sm text-gray-600">Những tháng lẻ trước 2014 sẽ được cộng dồn sang giai đoạn từ 2014 trở đi để làm tròn theo quy tắc sau:</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="border border-gray-200 p-4 rounded-lg bg-gray-50 text-center">
+                        <p class="text-sm font-bold text-gray-600 mb-1">Từ 01 đến 06 tháng</p>
+                        <p class="text-lg font-bold text-blue-600">Làm tròn thành 0.5 năm</p>
+                    </div>
+                    <div class="border border-gray-200 p-4 rounded-lg bg-gray-50 text-center">
+                        <p class="text-sm font-bold text-gray-600 mb-1">Từ 07 đến 11 tháng</p>
+                        <p class="text-lg font-bold text-blue-600">Làm tròn thành 1.0 năm</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="bg-gray-800 text-gray-400 py-8 px-4 text-center text-sm">
+        <p>© 2026 Hướng dẫn tính Bảo hiểm xã hội</p>
+        <p class="mt-2">Mọi số liệu chỉ mang tính chất tham khảo dựa trên công thức công bố từ cơ quan Nhà Nước.</p>
+    </footer>
+
+    <script>
+        // Bảng hệ số trượt giá (Cập nhật đến 2026)
+        const inflationRates = {
+            1994: 5.81, 1995: 4.91, 1996: 4.65, 1997: 4.50, 1998: 4.18, 1999: 4.01,
+            2000: 4.07, 2001: 4.09, 2002: 3.94, 2003: 3.81, 2004: 3.54, 2005: 3.27,
+            2006: 3.05, 2007: 2.81, 2008: 2.29, 2009: 2.14, 2010: 1.96, 2011: 1.65,
+            2012: 1.51, 2013: 1.42, 2014: 1.36, 2015: 1.36, 2016: 1.32, 2017: 1.28,
+            2018: 1.23, 2019: 1.20, 2020: 1.16, 2021: 1.14, 2022: 1.11, 2023: 1.07,
+            2024: 1.03, 2025: 1.00, 2026: 1.00
+        };
+
+        const currentYearValue = 2026;
+
+        function formatCurrencyInput(e) {
+            let val = e.target.value.replace(/\D/g, '');
+            if(val) {
+                e.target.value = new Intl.NumberFormat('vi-VN').format(val);
+            } else {
+                e.target.value = '';
+            }
+        }
+
+        function getNumberVal(str) {
+            return parseFloat(str.replace(/\./g, '')) || 0;
+        }
+
+        function formatMoney(amount) {
+            return new Intl.NumberFormat('vi-VN').format(Math.round(amount)) + ' VNĐ';
+        }
+
+        function generateMonthOptions() {
+            let options = '';
+            for(let i=1; i<=12; i++) options += `<option value="${i}">Tháng ${i}</option>`;
+            return options;
+        }
+
+        function generateYearOptions() {
+            let options = '';
+            for(let i=currentYearValue; i>=1965; i--) options += `<option value="${i}">${i}</option>`;
+            return options;
+        }
+
+        function addPeriodRow(isMaternity = false) {
+            const container = document.getElementById('periods-container');
+            const rowDiv = document.createElement('div');
+            rowDiv.className = "flex flex-col md:flex-row gap-2 md:gap-4 items-center bg-white md:bg-transparent p-4 md:p-0 rounded-lg border md:border-0 border-gray-200 shadow-sm md:shadow-none mb-3 md:mb-0 period-row";
+            
+            const placeholder = isMaternity ? "VD lương thai sản: 5,000,000" : "VD: 5,000,000";
+            const rowLabel = isMaternity ? `<span class="text-xs font-bold text-pink-600 bg-pink-50 px-2 py-1 rounded w-full md:hidden mb-2">Giai đoạn thai sản</span>` : "";
+            const bgClass = isMaternity ? "bg-pink-50" : "bg-white";
+
+            rowDiv.innerHTML = `
+                ${rowLabel}
+                <div class="grid grid-cols-2 md:flex md:w-5/12 gap-1 md:gap-2 w-full">
+                    <div class="flex border rounded overflow-hidden w-full">
+                        <select class="from-month px-1 py-2 md:px-2 outline-none bg-gray-50 border-r text-sm w-[55%] md:w-3/5">${generateMonthOptions()}</select>
+                        <select class="from-year px-1 py-2 md:px-2 outline-none bg-gray-50 text-sm w-[45%] md:w-2/5">${generateYearOptions()}</select>
+                    </div>
+                    <div class="flex items-center justify-center text-gray-400 text-sm md:px-0 whitespace-nowrap">Đến</div>
+                    <div class="flex border rounded overflow-hidden w-full">
+                        <select class="to-month px-1 py-2 md:px-2 outline-none bg-gray-50 border-r text-sm w-[55%] md:w-3/5">${generateMonthOptions()}</select>
+                        <select class="to-year px-1 py-2 md:px-2 outline-none bg-gray-50 text-sm w-[45%] md:w-2/5">${generateYearOptions()}</select>
+                    </div>
+                </div>
+
+                <div class="w-full md:w-6/12 mt-2 md:mt-0">
+                    <div class="relative">
+                        <input type="text" class="salary-input w-full p-2.5 border rounded outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 ${bgClass}" placeholder="${placeholder}">
+                        <span class="absolute right-3 top-2.5 text-gray-400 text-sm">VNĐ</span>
+                    </div>
+                </div>
+
+                <div class="w-full md:w-1/12 flex justify-end md:justify-center mt-2 md:mt-0 border-t md:border-t-0 pt-2 md:pt-0">
+                    <button onclick="this.closest('.period-row').remove()" class="text-gray-400 hover:text-red-500 p-2 transition" title="Xóa dòng này">
+                        <i class="fas fa-trash-alt text-lg"></i>
+                    </button>
+                </div>
+            `;
+            
+            container.appendChild(rowDiv);
+            
+            // Thêm event format tiền
+            const input = rowDiv.querySelector('.salary-input');
+            input.addEventListener('keyup', formatCurrencyInput);
+        }
+
+        function calculateBHXH() {
+            const rows = document.querySelectorAll('.period-row');
+            if (rows.length === 0) {
+                alert("Vui lòng thêm ít nhất một giai đoạn đóng BHXH.");
+                return;
+            }
+
+            let totalMonths = 0;
+            let monthsBefore2014 = 0;
+            let monthsAfter2014 = 0;
+            let totalAdjustedSalary = 0;
+
+            let isValid = true;
+
+            rows.forEach(row => {
+                let sMonth = parseInt(row.querySelector('.from-month').value);
+                let sYear = parseInt(row.querySelector('.from-year').value);
+                let eMonth = parseInt(row.querySelector('.to-month').value);
+                let eYear = parseInt(row.querySelector('.to-year').value);
+                let salary = getNumberVal(row.querySelector('.salary-input').value);
+
+                if (salary === 0) {
+                    isValid = false;
+                }
+
+                // Kiểm tra logic thời gian
+                let startAbsolute = sYear * 12 + sMonth;
+                let endAbsolute = eYear * 12 + eMonth;
+
+                if (startAbsolute > endAbsolute) {
+                    alert("Thời gian bắt đầu không thể lớn hơn thời gian kết thúc.");
+                    isValid = false;
+                    return;
+                }
+
+                let cYear = sYear;
+                let cMonth = sMonth;
+
+                while (cYear < eYear || (cYear === eYear && cMonth <= eMonth)) {
+                    // Lấy hệ số trượt giá
+                    let rate = inflationRates[cYear];
+                    if (!rate) {
+                        rate = cYear < 1994 ? 5.81 : 1.00;
+                    }
+
+                    totalAdjustedSalary += (salary * rate);
+                    totalMonths++;
+
+                    if (cYear < 2014) {
+                        monthsBefore2014++;
+                    } else {
+                        monthsAfter2014++;
+                    }
+
+                    cMonth++;
+                    if (cMonth > 12) {
+                        cMonth = 1;
+                        cYear++;
+                    }
+                }
+            });
+
+            if (!isValid) {
+                if(totalMonths > 0) alert("Vui lòng nhập đầy đủ mức lương cho các giai đoạn.");
+                return;
+            }
+
+            // Tính toán kết quả
+            let payout = 0;
+            let mbqtl = totalMonths > 0 ? (totalAdjustedSalary / totalMonths) : 0;
+            
+            let T1_years = 0;
+            let T2_years = 0;
+            let formulaText = "";
+
+            if (totalMonths < 12) {
+                // Đóng dưới 1 năm
+                payout = 0.22 * totalAdjustedSalary;
+                let maxCap = 2 * mbqtl;
+                let usedCap = false;
+                if (payout > maxCap) {
+                    payout = maxCap;
+                    usedCap = true;
+                }
+                
+                formulaText = `<p>Thời gian đóng dưới 1 năm: Mức hưởng = 22% × Tổng tiền lương đã đóng.</p>
+                               <p>Tổng tiền lương (đã nhân hệ số): ${formatMoney(totalAdjustedSalary)}</p>
+                               <p>=> 22% = ${formatMoney(0.22 * totalAdjustedSalary)}</p>`;
+                if(usedCap) {
+                    formulaText += `<p class="text-red-600 mt-2">Tuy nhiên, luật quy định tối đa không vượt quá 2 tháng MBQTL (${formatMoney(maxCap)}). Nên kết quả là ${formatMoney(payout)}.</p>`;
+                }
+
+            } else {
+                // Đóng từ 1 năm trở lên
+                let t1_base = Math.floor(monthsBefore2014 / 12);
+                let t1_remainder = monthsBefore2014 % 12;
+
+                if (monthsAfter2014 > 0) {
+                    T1_years = t1_base; // Phần lẻ chuyển sang T2
+                    let t2_total_months = monthsAfter2014 + t1_remainder;
+                    let t2_base = Math.floor(t2_total_months / 12);
+                    let t2_remainder = t2_total_months % 12;
+
+                    if (t2_remainder >= 7) T2_years = t2_base + 1;
+                    else if (t2_remainder >= 1) T2_years = t2_base + 0.5;
+                    else T2_years = t2_base;
+                } else {
+                    // Chỉ có thời gian trước 2014
+                    if (t1_remainder >= 7) T1_years = t1_base + 1;
+                    else if (t1_remainder >= 1) T1_years = t1_base + 0.5;
+                    else T1_years = t1_base;
+                    T2_years = 0;
+                }
+
+                let amountT1 = 1.5 * T1_years * mbqtl;
+                let amountT2 = 2.0 * T2_years * mbqtl;
+                payout = amountT1 + amountT2;
+
+                formulaText = `
+                    <p class="font-bold text-gray-800 border-b pb-1 mb-2">MBQTL = ${formatMoney(mbqtl)} / tháng</p>
+                    <p class="flex justify-between"><span>Giai đoạn trước 2014 (1.5 × ${T1_years} năm):</span> <span>${formatMoney(amountT1)}</span></p>
+                    <p class="flex justify-between"><span>Giai đoạn từ 2014 (2.0 × ${T2_years} năm):</span> <span>${formatMoney(amountT2)}</span></p>
+                    <div class="h-px bg-gray-200 my-2"></div>
+                    <p class="flex justify-between font-bold text-gray-800"><span>Tổng cộng:</span> <span>${formatMoney(payout)}</span></p>
+                `;
+            }
+
+            // Hiển thị ra UI
+            document.getElementById('totalAmount').innerText = formatMoney(payout);
+            document.getElementById('resTotalTime').innerText = `${totalMonths} tháng`;
+            document.getElementById('resT1').innerText = `${T1_years} năm`;
+            document.getElementById('resT2').innerText = `${T2_years} năm`;
+            document.getElementById('resAvgSalary').innerText = formatMoney(mbqtl);
+            document.getElementById('formulaDetail').innerHTML = formulaText;
+
+            const resultArea = document.getElementById('resultArea');
+            resultArea.classList.remove('hidden');
+            
+            // Scroll to result
+            resultArea.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Khởi tạo dòng đầu tiên khi load trang
+        window.onload = () => addPeriodRow(false);
+    </script>
+</body>
+</html>
