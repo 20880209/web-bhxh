@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
         body { font-family: 'Inter', sans-serif; }
         .gradient-bg { background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); }
         .card-shadow { box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 0 3px rgba(0, 0, 0, 0.02); }
@@ -96,41 +96,124 @@
             </div>
         </section>
 
-        <!-- Information Content -->
+        <!-- Information Content (Infographic Style) -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <section class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-                <h2 class="text-xl font-bold mb-4 flex items-center text-gray-800">
-                    <i class="fas fa-book-open text-blue-600 mr-3"></i>
-                    Công thức tính (Luật hiện hành)
-                </h2>
-                <div class="bg-gray-50 p-4 rounded-lg border-l-4 border-blue-500 mb-4">
-                    <p class="font-mono text-sm leading-relaxed text-gray-800">
-                        <strong>Mức hưởng BHXH 1 lần = </strong><br>
-                        (1.5 × T₁ + 2 × T₂) × MBQTL
-                    </p>
+            
+            <!-- Công thức tính -->
+            <section class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col">
+                <div class="bg-blue-600 p-4">
+                    <h2 class="text-xl font-bold text-white flex items-center">
+                        <i class="fas fa-project-diagram mr-3 opacity-80"></i>
+                        Công thức tính BHXH 1 lần
+                    </h2>
                 </div>
-                <ul class="list-disc ml-5 space-y-2 text-sm text-gray-600">
-                    <li><strong>T₁:</strong> Số năm đóng BHXH trước năm 2014.</li>
-                    <li><strong>T₂:</strong> Số năm đóng BHXH từ năm 2014 trở đi.</li>
-                    <li><strong>MBQTL:</strong> Mức bình quân tiền lương tháng đóng BHXH (đã nhân hệ số trượt giá).</li>
-                    <li class="text-red-600 font-medium">Trường hợp đóng dưới 1 năm: Lĩnh 22% tổng tiền lương đã đóng (tối đa không quá 2 tháng MBQTL).</li>
-                </ul>
+                <div class="p-6 flex-grow flex flex-col justify-center">
+                    
+                    <!-- Khối Infographic Công thức -->
+                    <div class="flex flex-wrap items-center justify-center gap-2 md:gap-3 mb-8 bg-gray-50 py-6 px-1 rounded-xl border border-gray-100">
+                        
+                        <!-- Dấu ngoặc mở -->
+                        <div class="text-gray-400 font-light text-5xl md:text-7xl -mt-1 md:-mt-2 opacity-80">(</div>
+
+                        <!-- T1 -->
+                        <div class="bg-white px-3 md:px-4 py-3 rounded-lg border-2 border-orange-200 text-center shadow-sm w-24 md:w-32 relative">
+                            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-orange-100 text-orange-600 text-[10px] font-bold px-2 py-0.5 rounded-full border border-orange-200 uppercase whitespace-nowrap">Trước 2014</div>
+                            <p class="font-black text-lg md:text-2xl text-gray-800 mt-2">1.5 <span class="text-sm font-bold text-orange-500">× T₁</span></p>
+                        </div>
+                        
+                        <div class="text-gray-400 font-bold text-xl md:text-2xl">+</div>
+                        
+                        <!-- T2 -->
+                        <div class="bg-white px-3 md:px-4 py-3 rounded-lg border-2 border-green-200 text-center shadow-sm w-24 md:w-32 relative">
+                            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-green-100 text-green-600 text-[10px] font-bold px-2 py-0.5 rounded-full border border-green-200 uppercase whitespace-nowrap">Từ 2014</div>
+                            <p class="font-black text-lg md:text-2xl text-gray-800 mt-2">2.0 <span class="text-sm font-bold text-green-500">× T₂</span></p>
+                        </div>
+
+                        <!-- Dấu ngoặc đóng -->
+                        <div class="text-gray-400 font-light text-5xl md:text-7xl -mt-1 md:-mt-2 opacity-80">)</div>
+
+                        <!-- Ép xuống dòng -->
+                        <div class="basis-full h-2"></div>
+
+                        <div class="text-gray-400 font-bold text-xl md:text-2xl">×</div>
+                        
+                        <!-- MBQTL -->
+                        <div class="bg-white px-3 md:px-4 py-3 rounded-lg border-2 border-blue-200 text-center shadow-sm w-24 md:w-32 relative">
+                            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-blue-100 text-blue-600 text-[10px] font-bold px-2 py-0.5 rounded-full border border-blue-200 uppercase whitespace-nowrap">Bình quân</div>
+                            <p class="font-black text-base md:text-xl text-gray-800 mt-2 md:mt-3">MBQTL</p>
+                        </div>
+                    </div>
+
+                    <!-- Chú thích -->
+                    <div class="space-y-3">
+                        <div class="flex items-start bg-orange-50 p-3 rounded-lg">
+                            <span class="w-8 h-8 rounded bg-orange-200 text-orange-700 font-bold flex items-center justify-center mr-3 shrink-0">T₁</span>
+                            <p class="text-sm text-gray-700 pt-1.5">Số năm đóng BHXH <strong>trước năm 2014</strong>.</p>
+                        </div>
+                        <div class="flex items-start bg-green-50 p-3 rounded-lg">
+                            <span class="w-8 h-8 rounded bg-green-200 text-green-700 font-bold flex items-center justify-center mr-3 shrink-0">T₂</span>
+                            <p class="text-sm text-gray-700 pt-1.5">Số năm đóng BHXH <strong>từ năm 2014 trở đi</strong>.</p>
+                        </div>
+                        <div class="flex items-start bg-blue-50 p-3 rounded-lg">
+                            <span class="w-8 h-8 rounded bg-blue-200 text-blue-700 font-bold flex items-center justify-center mr-3 shrink-0 text-xs">Mức</span>
+                            <p class="text-sm text-gray-700 pt-1.5"><strong>MBQTL:</strong> Mức bình quân tiền lương tháng đóng BHXH <em class="text-gray-500">(đã nhân hệ số trượt giá)</em>.</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 p-3 border border-red-200 bg-red-50 rounded-lg flex items-center text-sm text-red-700">
+                        <i class="fas fa-exclamation-triangle mr-3 text-red-500 text-lg"></i>
+                        <p>Đóng <strong>dưới 1 năm</strong>: Lĩnh 22% tổng tiền lương đã đóng (tối đa bằng 2 tháng MBQTL).</p>
+                    </div>
+                </div>
             </section>
 
-            <section class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
-                <h2 class="text-xl font-bold mb-4 flex items-center text-gray-800">
-                    <i class="fas fa-sync text-blue-600 mr-3"></i>
-                    Quy tắc làm tròn tháng lẻ
-                </h2>
-                <p class="mb-4 text-sm text-gray-600">Những tháng lẻ trước 2014 sẽ được cộng dồn sang giai đoạn từ 2014 trở đi để làm tròn theo quy tắc sau:</p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="border border-gray-200 p-4 rounded-lg bg-gray-50 text-center">
-                        <p class="text-sm font-bold text-gray-600 mb-1">Từ 01 đến 06 tháng</p>
-                        <p class="text-lg font-bold text-blue-600">Làm tròn thành 0.5 năm</p>
-                    </div>
-                    <div class="border border-gray-200 p-4 rounded-lg bg-gray-50 text-center">
-                        <p class="text-sm font-bold text-gray-600 mb-1">Từ 07 đến 11 tháng</p>
-                        <p class="text-lg font-bold text-blue-600">Làm tròn thành 1.0 năm</p>
+            <!-- Quy tắc làm tròn -->
+            <section class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col">
+                <div class="bg-indigo-600 p-4">
+                    <h2 class="text-xl font-bold text-white flex items-center">
+                        <i class="fas fa-sync mr-3 opacity-80"></i>
+                        Quy tắc làm tròn tháng lẻ
+                    </h2>
+                </div>
+                <div class="p-6 flex-grow flex flex-col">
+                    <p class="mb-8 text-sm text-gray-600 text-center">Tổng các tháng lẻ (sau khi đã tính tròn năm) sẽ được quy đổi theo công thức sau:</p>
+                    
+                    <div class="relative flex-grow flex flex-col justify-center gap-8 md:gap-12 pb-4">
+                        <!-- Đường nối dọc trên mobile, ngang trên desktop -->
+                        <div class="absolute left-[38px] top-4 bottom-4 w-1 bg-gray-100 -z-10 md:hidden"></div>
+                        <div class="hidden md:block absolute top-[52px] left-10 right-10 h-1 bg-gray-100 -z-10"></div>
+
+                        <!-- Mốc 1 -->
+                        <div class="flex flex-row md:flex-col items-center group">
+                            <div class="w-20 h-20 bg-white border-4 border-amber-400 text-amber-500 rounded-full flex flex-col items-center justify-center shadow-md z-10 group-hover:scale-110 transition-transform shrink-0">
+                                <span class="text-xl font-black">1-6</span>
+                                <span class="text-xs font-bold uppercase">tháng</span>
+                            </div>
+                            <div class="ml-6 md:ml-0 md:mt-6 bg-amber-50 border border-amber-200 px-6 py-3 rounded-xl relative w-full md:w-auto text-center">
+                                <!-- Mũi tên chỉ -->
+                                <div class="absolute top-1/2 -left-2 w-4 h-4 bg-amber-50 border-l border-b border-amber-200 transform -translate-y-1/2 rotate-45 md:hidden"></div>
+                                <div class="absolute -top-2 left-1/2 w-4 h-4 bg-amber-50 border-t border-l border-amber-200 transform -translate-x-1/2 rotate-45 hidden md:block"></div>
+                                
+                                <p class="text-sm text-gray-500 mb-1">Làm tròn thành</p>
+                                <p class="text-2xl font-black text-amber-600">0.5 <span class="text-lg">năm</span></p>
+                            </div>
+                        </div>
+
+                        <!-- Mốc 2 -->
+                        <div class="flex flex-row md:flex-col items-center group">
+                            <div class="w-20 h-20 bg-white border-4 border-emerald-400 text-emerald-500 rounded-full flex flex-col items-center justify-center shadow-md z-10 group-hover:scale-110 transition-transform shrink-0">
+                                <span class="text-xl font-black">7-11</span>
+                                <span class="text-xs font-bold uppercase">tháng</span>
+                            </div>
+                            <div class="ml-6 md:ml-0 md:mt-6 bg-emerald-50 border border-emerald-200 px-6 py-3 rounded-xl relative w-full md:w-auto text-center">
+                                <!-- Mũi tên chỉ -->
+                                <div class="absolute top-1/2 -left-2 w-4 h-4 bg-emerald-50 border-l border-b border-emerald-200 transform -translate-y-1/2 rotate-45 md:hidden"></div>
+                                <div class="absolute -top-2 left-1/2 w-4 h-4 bg-emerald-50 border-t border-l border-emerald-200 transform -translate-x-1/2 rotate-45 hidden md:block"></div>
+                                
+                                <p class="text-sm text-gray-500 mb-1">Làm tròn thành</p>
+                                <p class="text-2xl font-black text-emerald-600">1.0 <span class="text-lg">năm</span></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
